@@ -3,41 +3,76 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Personal website and portfolio" />
+  <meta name="description" content="Jeongeum — Personal website and portfolio" />
   <title>Jeongeum</title>
   <style>
-    /* ── Reset & base ── */
+    /* ── Reset ── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── Design tokens (DESIGN-apple.md) ── */
     :root {
-      --bg:       #f9f9f9;
-      --surface:  #ffffff;
-      --accent:   #2563eb;
-      --accent-h: #1d4ed8;
-      --text:     #1a1a2e;
-      --muted:    #6b7280;
-      --border:   #e5e7eb;
-      --radius:   0.75rem;
-      --shadow:   0 2px 12px rgba(0,0,0,0.08);
-      --max-w:    860px;
+      /* Colors */
+      --blue:           #0066cc;
+      --blue-focus:     #0071e3;
+      --blue-on-dark:   #2997ff;
+      --ink:            #1d1d1f;
+      --ink-80:         #333333;
+      --ink-48:         #7a7a7a;
+      --canvas:         #ffffff;
+      --parchment:      #f5f5f7;
+      --pearl:          #fafafc;
+      --tile-1:         #272729;
+      --tile-2:         #2a2a2c;
+      --surface-black:  #000000;
+      --on-dark:        #ffffff;
+      --muted-on-dark:  #cccccc;
+      --hairline:       #e0e0e0;
+      --divider-soft:   #f0f0f0;
+
+      /* Spacing */
+      --sp-xxs: 4px;
+      --sp-xs:  8px;
+      --sp-sm:  12px;
+      --sp-md:  17px;
+      --sp-lg:  24px;
+      --sp-xl:  32px;
+      --sp-xxl: 48px;
+      --sp-sec: 80px;
+
+      /* Radius */
+      --r-sm:   8px;
+      --r-md:   11px;
+      --r-lg:   18px;
+      --r-pill: 9999px;
+
+      /* Max widths */
+      --max-text: 980px;
     }
+
     html { scroll-behavior: smooth; }
+
     body {
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.7;
-      font-size: 1rem;
+      font-family: "SF Pro Text", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--canvas);
+      color: var(--ink);
+      font-size: 17px;
+      font-weight: 400;
+      line-height: 1.47;
+      letter-spacing: -0.374px;
+      -webkit-font-smoothing: antialiased;
     }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover, a:focus { color: var(--accent-h); text-decoration: underline; }
-    a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+
     img { display: block; max-width: 100%; }
 
-    /* ── Layout ── */
-    .container {
-      max-width: var(--max-w);
-      margin: 0 auto;
-      padding: 0 1.25rem;
+    a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+    a:hover { text-decoration: underline; }
+    a:focus-visible {
+      outline: 2px solid var(--blue-focus);
+      outline-offset: 3px;
+      border-radius: 3px;
     }
 
     /* ── Skip link ── */
@@ -45,210 +80,348 @@
       position: absolute;
       top: -99px;
       left: 1rem;
-      background: var(--accent);
+      background: var(--blue);
       color: #fff;
-      padding: 0.5rem 1rem;
-      border-radius: var(--radius);
-      z-index: 100;
+      padding: 8px 22px;
+      border-radius: var(--r-pill);
+      z-index: 200;
+      font-size: 14px;
     }
     .skip-link:focus { top: 1rem; }
 
-    /* ── Nav ── */
-    nav {
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
+    /* ── Container ── */
+    .container {
+      max-width: var(--max-text);
+      margin: 0 auto;
+      padding: 0 22px;
+    }
+
+    /* ══════════════════════════════════
+       GLOBAL NAV  (surface-black, 44px)
+    ══════════════════════════════════ */
+    .global-nav {
       position: sticky;
       top: 0;
-      z-index: 50;
+      z-index: 100;
+      background: var(--surface-black);
+      height: 44px;
+      display: flex;
+      align-items: center;
     }
-    nav .container {
+    .global-nav .container {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 3.5rem;
-      gap: 1rem;
+      width: 100%;
     }
-    nav .brand {
-      font-weight: 700;
-      font-size: 1.05rem;
-      color: var(--text);
+    .nav-brand {
+      color: var(--on-dark);
+      font-family: "SF Pro Display", system-ui, -apple-system, sans-serif;
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: -0.28px;
+      text-decoration: none;
     }
-    nav ul {
+    .nav-brand:hover { text-decoration: none; color: var(--on-dark); }
+    .nav-links {
       list-style: none;
       display: flex;
-      gap: 1.5rem;
+      gap: 20px;
+      align-items: center;
     }
-    nav ul a {
-      font-size: 0.9rem;
-      color: var(--muted);
-      font-weight: 500;
+    .nav-links a {
+      color: var(--on-dark);
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: -0.12px;
+      line-height: 1;
+      opacity: 0.8;
+      transition: opacity 0.15s;
     }
-    nav ul a:hover { color: var(--accent); text-decoration: none; }
+    .nav-links a:hover { opacity: 1; text-decoration: none; }
 
-    /* ── Hero ── */
+    /* ══════════════════════════════════
+       HERO TILE — white canvas, centered
+    ══════════════════════════════════ */
     .hero {
-      background: var(--surface);
-      padding: 4rem 1.25rem 3rem;
+      background: var(--canvas);
+      padding: var(--sp-sec) 22px;
       text-align: center;
     }
-    .avatar {
-      width: 140px;
-      height: 140px;
+    .hero-avatar-wrap {
+      margin: 0 auto var(--sp-xxl);
+      width: 160px;
+      height: 160px;
+    }
+    .hero-avatar {
+      width: 160px;
+      height: 160px;
       border-radius: 50%;
       object-fit: cover;
-      margin: 0 auto 1.5rem;
-      border: 4px solid var(--border);
-      box-shadow: var(--shadow);
+      box-shadow: rgba(0,0,0,0.22) 3px 5px 30px 0;
     }
     .hero h1 {
-      font-size: clamp(1.75rem, 5vw, 2.5rem);
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      margin-bottom: 0.4rem;
+      font-family: "SF Pro Display", system-ui, -apple-system, sans-serif;
+      font-size: clamp(36px, 6vw, 56px);
+      font-weight: 600;
+      line-height: 1.07;
+      letter-spacing: -0.28px;
+      color: var(--ink);
+      margin-bottom: var(--sp-md);
     }
-    .hero .tagline {
-      font-size: 1.1rem;
-      color: var(--muted);
-      margin-bottom: 1.5rem;
+    .hero-tagline {
+      font-family: "SF Pro Display", system-ui, -apple-system, sans-serif;
+      font-size: clamp(20px, 3vw, 28px);
+      font-weight: 400;
+      line-height: 1.14;
+      letter-spacing: 0.196px;
+      color: var(--ink-48);
+      margin-bottom: var(--sp-xxl);
     }
-    .hero-links {
+    .hero-ctas {
       display: flex;
-      gap: 0.75rem;
+      gap: var(--sp-md);
       justify-content: center;
       flex-wrap: wrap;
     }
+
+    /* ══════════════════════════════════
+       BUTTONS
+    ══════════════════════════════════ */
     .btn {
       display: inline-flex;
       align-items: center;
-      gap: 0.4rem;
-      padding: 0.55rem 1.2rem;
-      border-radius: 999px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      transition: background 0.15s, color 0.15s;
+      gap: 6px;
+      font-family: "SF Pro Text", system-ui, -apple-system, sans-serif;
+      font-size: 17px;
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: -0.374px;
+      border-radius: var(--r-pill);
+      padding: 11px 22px;
       cursor: pointer;
+      transition: transform 0.12s;
+      text-decoration: none;
     }
+    .btn:active { transform: scale(0.95); }
+    .btn:hover  { text-decoration: none; }
+    .btn:focus-visible { outline: 2px solid var(--blue-focus); outline-offset: 2px; }
+
     .btn-primary {
-      background: var(--accent);
+      background: var(--blue);
       color: #fff;
     }
-    .btn-primary:hover { background: var(--accent-h); color: #fff; text-decoration: none; }
-    .btn-outline {
+    .btn-primary:hover { background: var(--blue-focus); color: #fff; }
+
+    .btn-secondary {
+      background: var(--pearl);
+      color: var(--blue);
+      border: 1px solid var(--divider-soft);
+    }
+    .btn-secondary:hover { border-color: var(--blue); }
+
+    .btn-on-dark {
       background: transparent;
-      color: var(--text);
-      border: 1.5px solid var(--border);
+      color: var(--blue-on-dark);
+      border: 1px solid rgba(255,255,255,0.25);
     }
-    .btn-outline:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .btn-on-dark:hover { border-color: var(--blue-on-dark); color: var(--blue-on-dark); }
 
-    /* ── Sections ── */
-    section {
-      padding: 3.5rem 1.25rem;
-    }
-    section + section { border-top: 1px solid var(--border); }
-    .section-title {
-      font-size: 1.35rem;
-      font-weight: 700;
-      margin-bottom: 1.25rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .section-title::after {
-      content: "";
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-      margin-left: 0.5rem;
-    }
+    /* ══════════════════════════════════
+       SECTION SHARED
+    ══════════════════════════════════ */
+    section { padding: var(--sp-sec) 22px; }
 
-    /* ── About ── */
-    #about p { color: var(--text); max-width: 65ch; }
-    #about p + p { margin-top: 0.75rem; }
+    .section-eyebrow {
+      font-family: "SF Pro Text", system-ui, -apple-system, sans-serif;
+      font-size: 21px;
+      font-weight: 600;
+      line-height: 1.19;
+      letter-spacing: 0.231px;
+      margin-bottom: var(--sp-lg);
+    }
+    .section-eyebrow--light  { color: var(--ink); }
+    .section-eyebrow--dark   { color: var(--on-dark); }
 
-    /* ── Skills ── */
+    /* ══════════════════════════════════
+       ABOUT — parchment tile
+    ══════════════════════════════════ */
+    #about { background: var(--parchment); }
+    #about .container { max-width: 720px; }
+    #about p {
+      color: var(--ink);
+      margin-bottom: var(--sp-md);
+    }
+    #about p:last-child { margin-bottom: 0; }
+
+    /* ══════════════════════════════════
+       SKILLS — dark tile
+    ══════════════════════════════════ */
+    #skills { background: var(--tile-1); }
     .skills-grid {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.5rem;
+      gap: var(--sp-xs);
     }
     .skill-tag {
-      background: #eff6ff;
-      color: var(--accent);
-      border: 1px solid #bfdbfe;
-      border-radius: 999px;
-      padding: 0.3rem 0.85rem;
-      font-size: 0.85rem;
-      font-weight: 500;
+      background: rgba(255,255,255,0.08);
+      color: var(--muted-on-dark);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: var(--r-pill);
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: -0.224px;
+      line-height: 1.29;
     }
 
-    /* ── Experience / CV ── */
-    .timeline { display: flex; flex-direction: column; gap: 1.5rem; }
-    .timeline-item {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.25rem 1.5rem;
-      box-shadow: var(--shadow);
+    /* ══════════════════════════════════
+       EXPERIENCE — white canvas
+    ══════════════════════════════════ */
+    #experience { background: var(--canvas); }
+    .timeline { display: flex; flex-direction: column; gap: var(--sp-lg); }
+    .timeline-card {
+      background: var(--parchment);
+      border: 1px solid var(--hairline);
+      border-radius: var(--r-lg);
+      padding: var(--sp-lg);
     }
-    .timeline-item h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.2rem; }
-    .timeline-item .meta {
-      font-size: 0.85rem;
-      color: var(--muted);
-      margin-bottom: 0.5rem;
+    .timeline-card h3 {
+      font-family: "SF Pro Text", system-ui, -apple-system, sans-serif;
+      font-size: 17px;
+      font-weight: 600;
+      line-height: 1.24;
+      letter-spacing: -0.374px;
+      margin-bottom: 4px;
     }
-    .timeline-item p { font-size: 0.95rem; }
+    .timeline-card .meta {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--ink-48);
+      letter-spacing: -0.224px;
+      margin-bottom: var(--sp-xs);
+    }
+    .timeline-card p { font-size: 17px; color: var(--ink-80); }
+    .cv-row { margin-top: var(--sp-xl); }
 
-    .cv-download {
-      margin-top: 1.5rem;
-      display: inline-flex;
-    }
-
-    /* ── Projects ── */
+    /* ══════════════════════════════════
+       PROJECTS — parchment tile
+    ══════════════════════════════════ */
+    #projects { background: var(--parchment); }
     .projects-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 1rem;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: var(--sp-lg);
     }
     .project-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.25rem;
-      box-shadow: var(--shadow);
+      background: var(--canvas);
+      border: 1px solid var(--hairline);
+      border-radius: var(--r-lg);
+      padding: var(--sp-lg);
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
+      gap: var(--sp-xs);
     }
-    .project-card h3 { font-size: 1rem; font-weight: 700; }
-    .project-card p { font-size: 0.9rem; color: var(--muted); flex: 1; }
-    .project-card .card-link { font-size: 0.875rem; font-weight: 600; }
+    .project-card h3 {
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: -0.374px;
+    }
+    .project-card p {
+      font-size: 14px;
+      color: var(--ink-48);
+      letter-spacing: -0.224px;
+      flex: 1;
+    }
+    .project-card a {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--blue);
+      letter-spacing: -0.224px;
+    }
 
-    /* ── Contact ── */
+    /* ══════════════════════════════════
+       CONTACT — dark tile
+    ══════════════════════════════════ */
+    #contact { background: var(--tile-2); }
     .contact-list {
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 0.6rem;
+      gap: var(--sp-md);
     }
-    .contact-list li { display: flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; }
-    .contact-icon { font-size: 1.1rem; }
+    .contact-list li {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-sm);
+    }
+    .contact-list a {
+      color: var(--blue-on-dark);
+      font-size: 17px;
+      letter-spacing: -0.374px;
+    }
+    .contact-icon { font-size: 18px; }
 
-    /* ── Footer ── */
+    /* ══════════════════════════════════
+       AI USAGE — white canvas
+    ══════════════════════════════════ */
+    #ai-usage { background: var(--canvas); }
+    .ai-card {
+      background: var(--parchment);
+      border: 1px solid var(--hairline);
+      border-radius: var(--r-lg);
+      padding: var(--sp-lg);
+      display: inline-block;
+      max-width: 560px;
+    }
+    .ai-card h3 {
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: -0.374px;
+      margin-bottom: 4px;
+    }
+    .ai-card .meta {
+      font-size: 14px;
+      color: var(--ink-48);
+      letter-spacing: -0.224px;
+      margin-bottom: var(--sp-xs);
+    }
+    .ai-card p {
+      font-size: 17px;
+      color: var(--ink-80);
+    }
+    .ai-card em {
+      color: var(--blue);
+      font-style: normal;
+      font-weight: 400;
+    }
+
+    /* ══════════════════════════════════
+       FOOTER — parchment
+    ══════════════════════════════════ */
     footer {
-      background: var(--surface);
-      border-top: 1px solid var(--border);
+      background: var(--parchment);
+      border-top: 1px solid var(--hairline);
+      padding: var(--sp-xxl) 22px;
       text-align: center;
-      padding: 1.5rem 1.25rem;
-      font-size: 0.85rem;
-      color: var(--muted);
+    }
+    footer p {
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: -0.12px;
+      color: var(--ink-48);
     }
 
-    /* ── Responsive ── */
-    @media (max-width: 600px) {
-      nav ul { gap: 1rem; }
-      .hero { padding: 3rem 1rem 2rem; }
-      .avatar { width: 110px; height: 110px; }
-      section { padding: 2.5rem 1rem; }
+    /* ══════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════ */
+    @media (max-width: 640px) {
+      :root { --sp-sec: 56px; }
+      .nav-links { gap: 12px; }
+      .nav-links li:nth-child(n+4) { display: none; }
+      .hero-avatar-wrap { width: 120px; height: 120px; }
+      .hero-avatar { width: 120px; height: 120px; }
     }
   </style>
 </head>
@@ -256,11 +429,11 @@
 
   <a class="skip-link" href="#main">Skip to main content</a>
 
-  <!-- Navigation -->
-  <nav aria-label="Main navigation">
+  <!-- Global Nav -->
+  <nav class="global-nav" aria-label="Main navigation">
     <div class="container">
-      <span class="brand">Jeongeum</span>
-      <ul>
+      <a class="nav-brand" href="#">Jeongeum</a>
+      <ul class="nav-links">
         <li><a href="#about">About</a></li>
         <li><a href="#skills">Skills</a></li>
         <li><a href="#experience">Experience</a></li>
@@ -273,29 +446,31 @@
 
   <main id="main">
 
-    <!-- Hero -->
+    <!-- Hero — white canvas -->
     <header class="hero">
-      <img
-        src="assets/profile.jpg"
-        alt="Portrait of Jeongeum"
-        class="avatar"
-        width="140"
-        height="140"
-      />
+      <div class="hero-avatar-wrap">
+        <img
+          src="assets/profile.jpg"
+          alt="Portrait of Jeongeum"
+          class="hero-avatar"
+          width="160"
+          height="160"
+        />
+      </div>
       <h1>Jeongeum</h1>
-      <p class="tagline">Software Engineer · Designer · Problem Solver</p>
-      <div class="hero-links">
-        <a class="btn btn-primary" href="assets/cv.pdf" download aria-label="Download CV (PDF)">
-          ⬇ Download CV
+      <p class="hero-tagline">Software Engineer · Designer · Problem Solver</p>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" href="assets/cv.pdf" download aria-label="Download CV as PDF">
+          Download CV
         </a>
-        <a class="btn btn-outline" href="#contact">Get in touch</a>
+        <a class="btn btn-secondary" href="#contact">Get in touch</a>
       </div>
     </header>
 
-    <!-- About -->
+    <!-- About — parchment tile -->
     <section id="about" aria-labelledby="about-title">
       <div class="container">
-        <h2 class="section-title" id="about-title">About</h2>
+        <h2 class="section-eyebrow section-eyebrow--light" id="about-title">About</h2>
         <p>
           Hi! I'm <strong>Jeongeum</strong> — a passionate software engineer based in Seoul, Korea.
           I love building things for the web and solving real-world problems with clean, maintainable code.
@@ -307,12 +482,11 @@
       </div>
     </section>
 
-    <!-- Skills -->
+    <!-- Skills — dark tile -->
     <section id="skills" aria-labelledby="skills-title">
       <div class="container">
-        <h2 class="section-title" id="skills-title">Skills</h2>
+        <h2 class="section-eyebrow section-eyebrow--dark" id="skills-title">Skills</h2>
         <div class="skills-grid" role="list" aria-label="Technical skills">
-          <!-- Edit or add tags to match your actual skills -->
           <span class="skill-tag" role="listitem">HTML &amp; CSS</span>
           <span class="skill-tag" role="listitem">JavaScript</span>
           <span class="skill-tag" role="listitem">TypeScript</span>
@@ -327,59 +501,49 @@
       </div>
     </section>
 
-    <!-- Experience & CV -->
+    <!-- Experience — white canvas -->
     <section id="experience" aria-labelledby="exp-title">
       <div class="container">
-        <h2 class="section-title" id="exp-title">Experience</h2>
+        <h2 class="section-eyebrow section-eyebrow--light" id="exp-title">Experience</h2>
         <div class="timeline">
 
-          <article class="timeline-item">
+          <article class="timeline-card">
             <h3>Senior Software Engineer</h3>
             <p class="meta">Company Name &mdash; Jan 2022 &ndash; Present</p>
-            <p>
-              Brief description of what you did, what technologies you used, and any measurable impact.
-            </p>
+            <p>Brief description of what you did, what technologies you used, and any measurable impact.</p>
           </article>
 
-          <article class="timeline-item">
+          <article class="timeline-card">
             <h3>Software Engineer</h3>
             <p class="meta">Another Company &mdash; Jun 2019 &ndash; Dec 2021</p>
-            <p>
-              Brief description of what you built or maintained, and the skills you applied.
-            </p>
+            <p>Brief description of what you built or maintained, and the skills you applied.</p>
           </article>
 
-          <article class="timeline-item">
+          <article class="timeline-card">
             <h3>Junior Developer</h3>
             <p class="meta">First Job Inc. &mdash; Sep 2017 &ndash; May 2019</p>
-            <p>
-              Brief description of responsibilities and technologies learned.
-            </p>
+            <p>Brief description of responsibilities and technologies learned.</p>
           </article>
 
         </div>
-
-        <a
-          class="btn btn-outline cv-download"
-          href="assets/cv.pdf"
-          download
-          aria-label="Download full CV as PDF"
-        >
-          📄 Download Full CV (PDF)
-        </a>
+        <div class="cv-row">
+          <a class="btn btn-secondary" href="assets/cv.pdf" download aria-label="Download full CV as PDF">
+            Download Full CV
+          </a>
+        </div>
       </div>
     </section>
 
-    <!-- Projects -->
+    <!-- Projects — parchment tile -->
     <section id="projects" aria-labelledby="projects-title">
       <div class="container">
-        <h2 class="section-title" id="projects-title">Projects</h2>
+        <h2 class="section-eyebrow section-eyebrow--light" id="projects-title">Projects</h2>
         <div class="projects-grid">
 
           <article class="project-card">
             <h3>Project Alpha</h3>
             <p>A short description of what this project does and what problem it solves.</p>
-            <a class="card-link" href="https://github.com/yourusername/project-alpha" target="_blank" rel="noopener noreferrer">
+            <a href="https://github.com/yourusername/project-alpha" target="_blank" rel="noopener noreferrer">
               View on GitHub →
             </a>
           </article>
@@ -387,7 +551,7 @@
           <article class="project-card">
             <h3>Project Beta</h3>
             <p>A short description of the tech stack and the outcome of the project.</p>
-            <a class="card-link" href="https://github.com/yourusername/project-beta" target="_blank" rel="noopener noreferrer">
+            <a href="https://github.com/yourusername/project-beta" target="_blank" rel="noopener noreferrer">
               View on GitHub →
             </a>
           </article>
@@ -395,7 +559,7 @@
           <article class="project-card">
             <h3>Project Gamma</h3>
             <p>Another cool project — what you built and why it matters.</p>
-            <a class="card-link" href="https://github.com/yourusername/project-gamma" target="_blank" rel="noopener noreferrer">
+            <a href="https://github.com/yourusername/project-gamma" target="_blank" rel="noopener noreferrer">
               View on GitHub →
             </a>
           </article>
@@ -404,10 +568,10 @@
       </div>
     </section>
 
-    <!-- Contact -->
+    <!-- Contact — dark tile -->
     <section id="contact" aria-labelledby="contact-title">
       <div class="container">
-        <h2 class="section-title" id="contact-title">Contact</h2>
+        <h2 class="section-eyebrow section-eyebrow--dark" id="contact-title">Contact</h2>
         <ul class="contact-list">
           <li>
             <span class="contact-icon" aria-hidden="true">✉️</span>
@@ -429,11 +593,11 @@
       </div>
     </section>
 
-    <!-- AI Usage -->
+    <!-- AI Usage — white canvas -->
     <section id="ai-usage" aria-labelledby="ai-usage-title">
       <div class="container">
-        <h2 class="section-title" id="ai-usage-title">AI Usage</h2>
-        <div class="timeline-item">
+        <h2 class="section-eyebrow section-eyebrow--light" id="ai-usage-title">AI Usage</h2>
+        <div class="ai-card">
           <h3>Replit Agent</h3>
           <p class="meta">Tool used to generate this website</p>
           <p>Prompt: <em>&ldquo;Build a static personal website in the repo root&rdquo;</em></p>
@@ -443,7 +607,7 @@
 
   </main>
 
-  <!-- Footer -->
+  <!-- Footer — parchment -->
   <footer>
     <p>&copy; <span id="year"></span> Jeongeum. Built with plain HTML &amp; CSS.</p>
   </footer>
